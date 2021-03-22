@@ -32,7 +32,6 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.platform.PlatformView;
 
 import java.io.File;
@@ -55,7 +54,7 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
 
   private ValueCallback<Uri> mUploadMessage;
   private ValueCallback<Uri[]> mUploadMessageArray;
-  private final static int FILECHOOSER_RESULTCODE = 1;
+  private final static int FILE_CHOOSER_RESULT_CODE = 110001;
   private Uri fileUri;
   private Uri videoUri;
 
@@ -63,7 +62,7 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
 
   public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
     if (Build.VERSION.SDK_INT >= 21) {
-      if (requestCode == FILECHOOSER_RESULTCODE) {
+      if (requestCode == FILE_CHOOSER_RESULT_CODE) {
         Uri[] results = null;
         if (resultCode == Activity.RESULT_OK) {
           if (fileUri != null && getFileSize(fileUri) > 0) {
@@ -80,7 +79,7 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
         }
       }
     } else {
-      if (requestCode == FILECHOOSER_RESULTCODE) {
+      if (requestCode == FILE_CHOOSER_RESULT_CODE) {
         Uri result = null;
         if (resultCode == RESULT_OK && data != null) {
           result = data.getData();
@@ -260,7 +259,7 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
         i.addCategory(Intent.CATEGORY_OPENABLE);
         i.setType("image/*");
-        ((Activity) context).startActivityForResult(Intent.createChooser(i, "File Chooser"), FILECHOOSER_RESULTCODE);
+        ((Activity) context).startActivityForResult(Intent.createChooser(i, "File Chooser"), FILE_CHOOSER_RESULT_CODE);
 
       }
 
@@ -272,7 +271,7 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
         i.setType("*/*");
         ((Activity) context).startActivityForResult(
                 Intent.createChooser(i, "File Browser"),
-                FILECHOOSER_RESULTCODE);
+                FILE_CHOOSER_RESULT_CODE);
       }
 
       //For Android 4.1
@@ -281,7 +280,7 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
         i.addCategory(Intent.CATEGORY_OPENABLE);
         i.setType("image/*");
-        ((Activity) context).startActivityForResult(Intent.createChooser(i, "File Chooser"), FILECHOOSER_RESULTCODE);
+        ((Activity) context).startActivityForResult(Intent.createChooser(i, "File Chooser"), FILE_CHOOSER_RESULT_CODE);
 
       }
 
@@ -325,7 +324,7 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
         Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
         chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
-        ((Activity) context).startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
+        ((Activity) context).startActivityForResult(chooserIntent, FILE_CHOOSER_RESULT_CODE);
         return true;
       }
     });

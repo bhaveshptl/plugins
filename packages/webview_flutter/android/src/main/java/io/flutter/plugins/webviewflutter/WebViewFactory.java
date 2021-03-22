@@ -36,6 +36,9 @@ public final class WebViewFactory extends PlatformViewFactory {
   }
 
   public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-    return _flutterWebview.onActivityResult(requestCode, resultCode, data);
+    if (_flutterWebview != null) {
+      return _flutterWebview.onActivityResult(requestCode, resultCode, data);
+    }
+    return false;
   }
 }

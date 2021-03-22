@@ -101,6 +101,9 @@ public class WebViewFlutterPlugin implements FlutterPlugin, ActivityAware, Plugi
 
   @Override
   public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-    return _webViewFactory.onActivityResult(requestCode, resultCode, data);
+    if (_webViewFactory != null) {
+      return _webViewFactory.onActivityResult(requestCode, resultCode, data);
+    }
+    return false;
   }
 }
