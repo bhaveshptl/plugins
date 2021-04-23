@@ -18,7 +18,7 @@ import java.util.Map;
 public final class WebViewFactory extends PlatformViewFactory {
   private final BinaryMessenger messenger;
   private final View containerView;
-  private FlutterWebView _flutterWebview;
+  static private FlutterWebView _flutterWebview;
 
   WebViewFactory(BinaryMessenger messenger, View containerView) {
     super(StandardMessageCodec.INSTANCE);
